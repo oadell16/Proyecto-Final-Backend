@@ -1,15 +1,11 @@
-const mysql = require('mysql');
+const {Pool} = require('pg');
 
-// Set database connection credentials
-const config = {
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'api',
-};
-
-// Create a MySQL pool
-const pool = mysql.createPool(config);
+const pool = new Pool({
+    host: 'database',
+    user: 'gestbotDB',
+    password: 'gestbotDB',
+    database: 'gestbotDB'
+})
 
 // Export the pool
 module.exports = pool;
