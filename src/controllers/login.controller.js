@@ -7,23 +7,19 @@ loginController.login = (req, res) => {
     pool.query(query, async (error, result) => {
         if (error) throw error;
         if (result.rowCount < 1) res.send("No se encontro al usuario");
-        let bcresult = await bcrypt.compare(result.rows[0].user_password, req.query.password)
-        console.log(bcresult);
+        console.log(result)
+        bcrypt.compare(result.rows[0].user_password, req.query.password, (err,data)=>{
+            if (err) throw err
 
-        if(bcresult) {
-            res.send({
-                status: true,
-                msg: "OK"
-            })
-        } else {
-            res.send({
-                status: false,
-                msg: "password doesnt match"
-            })
-        }
+            //if both match than you can do anything
+            if (data) {
+                return res.status(200).json({ msg: "Login success" })
+            } else {
+                return res.status(401).json({ msg: "Invalid credencial" })
+            }
+
+        });
     });
-    console.log(req.query);
-    res.send("me llega")
 }
 
 module.exports = loginController;

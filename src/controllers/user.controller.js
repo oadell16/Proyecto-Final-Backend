@@ -1,6 +1,7 @@
 const userController = {};
 // Load the MySQL pool connection
 const pool = require('../config/database');
+const bcrypt = require('bcrypt');
 
 userController.getUsers = (req, res) => {
     pool.query('SELECT * FROM gestbot_users', (error, result) => {
@@ -23,13 +24,15 @@ userController.getUser = (req, res) => {
 userController.addUser = (req, res) => {
     let data = req.body
     console.log(data)
-    
-    let inserUser = `INSERT INTO gestbot_users(username, user_password, user_name, user_email ) VALUES("${data.username}","${data.password}","${data.name}","${data.email}")`;
-    pool.query(inserUser, (error, result) => {
-        if (error) throw error;
- 
-        res.send(result);
+    bcrypt.hash(req.body.password,(error, hash) => {
+        let inserUser = `INSERT INTO gestbot_users(username, user_password, user_name, user_email ) VALUES("${data.username}","${hash}","${data.name}","${data.email}")`;
+        pool.query(inserUser, (error, result) => {
+            if (error) throw error;
+            
+            res.send(result);
+        });
     });
+    
 };
 
 userController.deleteUser = (req, res) => {
