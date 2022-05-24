@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/api/users', userController.getUsers);
 
 //display user by id
-router.get('/api/users/:id', userController.getUser);
+router.get('/api/users/:name', userController.getUser);
 
 //add user to database
 router.post('/api/users', userController.addUser);

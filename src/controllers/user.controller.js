@@ -13,7 +13,9 @@ userController.getUsers = (req, res) => {
 };
 
 userController.getUser = (req, res) => {
-    pool.query('SELECT * FROM gestbot_users where user_id='+req.params.id, (error, result) => {
+    console.log(req.params.name);
+    let query = `select * from gestbot_users where username = '${req.params.name}' or user_email = '${req.params.name}'`;
+    pool.query(query, (error, result) => {
         if (error) throw error;
  
         res.send(result);
