@@ -1,6 +1,4 @@
 const userController = {};
-
-const req = require('express/lib/request');
 // Load the MySQL pool connection
 const pool = require('../config/database');
 

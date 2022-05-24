@@ -12,6 +12,7 @@ app.use(express.json());
 //Routes
 app.use(require('./routes/user.routes'));
 app.use(require('./routes/robot.routes'));
+app.use(require('./routes/login.routes'));
 
 const server = app.listen(app.get('port'), function () {
     var host = server.address().address
