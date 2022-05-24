@@ -5,7 +5,7 @@ const req = require('express/lib/request');
 const pool = require('../config/database');
 
 userController.getUsers = (req, res) => {
-    pool.query('SELECT * FROM users', (error, result) => {
+    pool.query('SELECT * FROM gestbot_users', (error, result) => {
         if (error) throw error;
  
         res.send(result);
@@ -13,7 +13,7 @@ userController.getUsers = (req, res) => {
 };
 
 userController.getUser = (req, res) => {
-    pool.query('SELECT * FROM users where id='+req.params.id, (error, result) => {
+    pool.query('SELECT * FROM gestbot_users where user_id='+req.params.id, (error, result) => {
         if (error) throw error;
  
         res.send(result);
@@ -24,7 +24,7 @@ userController.addUser = (req, res) => {
     let data = req.body
     console.log(data)
 
-    let inserUser = `INSERT INTO users(name,email,password) VALUES("${data.name}","${data.email}","${data.password}")`;
+    let inserUser = `INSERT INTO gestbot_users(username, user_password, user_name, user_email ) VALUES("${data.username}","${data.password}","${data.name}","${data.email}")`;
     pool.query(inserUser, (error, result) => {
         if (error) throw error;
  
@@ -35,7 +35,7 @@ userController.addUser = (req, res) => {
 userController.deleteUser = (req, res) => {
     let id = req.params.id
 
-    let inserUser = `DELETE FROM users WHERE id = ${id}`;
+    let inserUser = `DELETE FROM gestbot_users WHERE user_id = ${id}`;
     pool.query(inserUser, (error, result) => {
         if (error) throw error;
  
@@ -47,7 +47,7 @@ userController.updateUser = (req, res) => {
     let data = req.body;
     let id = req.params.id
 
-    let inserUser = `UPDATE users SET name = '${data.name}',email = '${data.email}', password = '${data.password}' WHERE id = ${id}`;
+    let inserUser = `UPDATE gestbot_users SET username = '${data.username}', password = '${data.password}' , user_name = '${data.name}' , user_email = '${data.email}' WHERE id = ${id}`;
     pool.query(inserUser, (error, result) => {
         if (error) throw error;
         res.send(result);
